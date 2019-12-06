@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-12-05 15:05:03
- * @LastEditTime: 2019-12-06 11:02:00
+ * @LastEditTime: 2019-12-06 18:05:55
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /github/js/page/PopularPage.js
@@ -29,22 +29,36 @@ class PopularTab extends Component {
     }
 }
 
+const tabNames = ['Java','Android','iOS','React','React Native','PHP']
+
 export default class PopularPage extends Component {
-    render() {
-        const TopNavigation = createAppContainer(createMaterialTopTabNavigator({
-            PopularTab1 : {
-                screen:PopularTab,
+
+    constructor(props){
+        super(props)
+        
+    }
+
+    _genTabs() {
+        
+        const tabs = {}
+        tabNames.forEach((item,index) => {
+            tabs[`tab${index}`] = {
+                screen : PopularTab,
                 navigationOptions:{
-                    title:'Tab1'
-                }
-            },
-            PopularTab2 : {
-                screen:PopularTab,
-                navigationOptions:{
-                    title:'Tab2'
+                    title:item
                 }
             }
-        }))
+        });
+        console.log(tabs)
+        return tabs;
+    }
+
+    componentDidMount() {
+        this._genTabs()
+    }
+
+    render() {
+        const TopNavigation = createAppContainer(createMaterialTopTabNavigator(this._genTabs()))
 
         return <View style={{flex:1,marginTop:30,}}>
             <TopNavigation />
