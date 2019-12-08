@@ -29,21 +29,23 @@ class PopularTab extends Component {
     }
 }
 
-const tabNames = ['Java','Android','iOS','React','React Native','PHP']
+// const tabNames = ['Java','Android','iOS','React','React Native','PHP']
 
 export default class PopularPage extends Component {
 
     constructor(props){
         super(props)
-        
+        this.state={
+            tabNames : ['Java','Android','iOS','React','React Native','PHP']
+        }
     }
 
     _genTabs() {
         
         const tabs = {}
-        tabNames.forEach((item,index) => {
+        this.state.tabNames.forEach((item,index) => {
             tabs[`tab${index}`] = {
-                screen : PopularTab,
+                screen : props => <PopularTab {...props} tabLabel={item} />,
                 navigationOptions:{
                     title:item
                 }
@@ -63,7 +65,16 @@ export default class PopularPage extends Component {
                 scrollEnabled : true, //是否允许滑动
                 upperCaseLabel:false,//是否默认大写
                 style:{
-                    backgroundColor:'#768'
+                    backgroundColor:'#678'
+                },
+                indicatorStyle:{
+                    height:2,
+                    backgroundColor:'white'
+                },
+                labelStyle:{
+                    fontSize:13,
+                    marginTop:6,
+                    marginBottom:6,
                 }
             },
             
