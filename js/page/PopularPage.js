@@ -58,7 +58,17 @@ export default class PopularPage extends Component {
     }
 
     render() {
-        const TopNavigation = createAppContainer(createMaterialTopTabNavigator(this._genTabs()))
+        const TopNavigation = createAppContainer(createMaterialTopTabNavigator(this._genTabs(),{
+            tabBarOptions:{
+                scrollEnabled : true, //是否允许滑动
+                upperCaseLabel:false,//是否默认大写
+                style:{
+                    backgroundColor:'#768'
+                }
+            },
+            
+
+        }))
 
         return <View style={{flex:1,marginTop:30,}}>
             <TopNavigation />
