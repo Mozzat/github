@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-12-06 11:33:55
- * @LastEditTime: 2019-12-09 16:24:17
+ * @LastEditTime: 2019-12-09 16:46:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /github/js/navigator/DynamicTabNavigator.js
@@ -142,7 +142,6 @@ class TabBarComponent extends Component {
         />
       )
     }
-
 }
 
 class DynamicTabNavigator extends Component {
@@ -154,6 +153,7 @@ class DynamicTabNavigator extends Component {
 
     _tabNavigator() {
 
+        ///如果已经创建成功了，就不需要再次创建
         if (this.Tabs) {
             return this.Tabs
         }
