@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-12-06 11:33:55
- * @LastEditTime: 2019-12-06 16:41:53
+ * @LastEditTime: 2019-12-09 16:24:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /github/js/navigator/DynamicTabNavigator.js
@@ -19,6 +19,9 @@ import MyPage from '../page/MyPage'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Entypo from 'react-native-vector-icons/Entypo'
+
+///reducer
+import {connect} from 'react-redux'
 
 const TABS = {
     PopularPage:{
@@ -117,14 +120,14 @@ class TabBarComponent extends Component {
     }
   
     render () {
-      const { routes, index } = this.props.navigation.state
-      console.log(this.props.navigation.state)
-      if (routes[index].params) {
-        const { theme } = routes[index].params
-        if (theme && theme.updateTime > this.theme.updateTime) {
-          this.theme = theme
-        }
-      }
+    //   const { routes, index } = this.props.navigation.state
+    //   console.log(this.props.navigation.state)
+    //   if (routes[index].params) {
+    //     const { theme } = routes[index].params
+    //     if (theme && theme.updateTime > this.theme.updateTime) {
+    //       this.theme = theme
+    //     }
+    //   }
   
       /**
        * custom tabBarComponent
@@ -135,14 +138,14 @@ class TabBarComponent extends Component {
           {...this.props}
           getAccessibilityRole={() => {}}
           getAccessibilityStates={() => {}}
-          activeTintColor={this.theme.tintColor || this.props.activeTintColor}
+          activeTintColor={this.props.theme}
         />
       )
     }
 
 }
 
-export default class DynamicTabNavigator extends Component {
+class DynamicTabNavigator extends Component {
 
     constructor(props){
         super(props)
@@ -151,11 +154,15 @@ export default class DynamicTabNavigator extends Component {
 
     _tabNavigator() {
 
+        if (this.Tabs) {
+            return this.Tabs
+        }
+
         const {PopularPage,TrendingPage,FavoritePage,MyPage} = TABS
         const tabs = {PopularPage,TrendingPage,FavoritePage,MyPage}
 
-        return createAppContainer(createBottomTabNavigator(tabs,{
-            tabBarComponent: TabBarComponent,
+        return this.Tabs = createAppContainer(createBottomTabNavigator(tabs,{
+            tabBarComponent: props => <TabBarComponent theme={this.props.theme} {...props} />,
         }))
     }
 
@@ -174,3 +181,9 @@ const style = StyleSheet.create({
         justifyContent:'center'
     }
 })
+
+const mapStateToProps = state => ({
+    theme:state.theme.theme,
+})
+
+export default connect(mapStateToProps)(DynamicTabNavigator)
