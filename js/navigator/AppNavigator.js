@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-12-05 11:28:48
- * @LastEditTime: 2019-12-09 16:11:20
+ * @LastEditTime: 2019-12-10 16:37:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /Github/js/navigator/AppNavigator.js
@@ -13,7 +13,8 @@ import WelcomePage from '../page/WelcomePage'
 import HomePage from '../page/HomePage'
 import DetialPage from '../page/DetialPage'
 import LoginPage from '../page/LoginPage'
-
+import FetchDemoPage from '../page/FetchDemoPage'
+import AsyncStrageDemo from '../page/AsyncStrageDemo'
 ///redux
 import {connect} from 'react-redux'
 import {createReactNavigationReduxMiddleware,createReduxContainer} from 'react-navigation-redux-helpers'
@@ -46,6 +47,12 @@ const MainNavigator = createStackNavigator(
             navigationOptions:{
                 // header:null,
             }
+        },
+        FetchDemoPage:{
+            screen:FetchDemoPage,
+        },
+        AsyncStrageDemo:{
+            screen:AsyncStrageDemo,
         },
     }
 )

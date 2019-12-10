@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-12-05 15:05:03
- * @LastEditTime: 2019-12-06 18:05:55
+ * @LastEditTime: 2019-12-10 16:17:46
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /github/js/page/PopularPage.js
@@ -24,6 +24,17 @@ class PopularTab extends Component {
                         navigation:this.props.navigation
                     },'DetialPage')
                 }}>跳转到详情页</Text>
+                <Text onPress={()=>{
+                    NavigationUtil.goPage({
+                        navigation:this.props.navigation
+                    },'FetchDemoPage')
+                }}>跳转到Fetch</Text>
+                <Text onPress={()=>{
+                    NavigationUtil.goPage({
+                        navigation:this.props.navigation
+                    },'AsyncStrageDemo')
+                }}>AsyncStorage实用</Text>
+                
             </View>
         )
     }
