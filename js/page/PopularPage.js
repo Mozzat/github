@@ -7,45 +7,92 @@
  * @FilePath: /github/js/page/PopularPage.js
  */
 import React, { Component } from 'react'
-import {View,Text,StyleSheet} from 'react-native'
+import {View,Text,StyleSheet,FlatList,RefreshControl} from 'react-native'
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs'
 import {createAppContainer} from 'react-navigation'
 import NavigationUtil from '../navigator/NavigationUtil'
+import actions from '../action/index'
+import { connect } from 'react-redux'
+
+const URL = 'https://api.github.com/search/repositories?q='
+const QUERY_STR = '&sort=stars'
+const THEME_COLOR = 'red'
 
 class PopularTab extends Component {
 
-    render() {
+    constructor(props) {
+        super(props)
         const {tabLabel} = this.props
+        this.storeName = tabLabel
+    }
+
+    genFetchUrl(key) {
+        return URL + key + QUERY_STR
+    }
+
+    loadData = () => {
+        const {onLoadPopularData} = this.props
+        const url = this.genFetchUrl(this.storeName)
+        onLoadPopularData(this.storeName,url)
+    }
+
+    componentDidMount() {
+        this.loadData()
+    }
+
+    _renderItem = (data) => {
+        console.log(item,22222)
+        return <View style={{marginBottom:10}}>
+            <Text style={{backgroundColor:'#faa'}}>
+                1111
+            </Text>
+        </View>
+    }
+
+    render() {
+        const {popular} = this.props
+        let store = popular[this.storeName]; //动态获取state
+        if (!store) {
+            store = {
+                itmes:[],
+                isLoading:false
+            }
+        }
+
+        // console.log(store.isLoading)
         return (
             <View style={style.container}>
-                <Text>{tabLabel}</Text>
-                <Text onPress={()=>{
-                    NavigationUtil.goPage({
-                        navigation:this.props.navigation
-                    },'DetialPage')
-                }}>跳转到详情页</Text>
-                <Text onPress={()=>{
-                    NavigationUtil.goPage({
-                        navigation:this.props.navigation
-                    },'FetchDemoPage')
-                }}>跳转到Fetch</Text>
-                <Text onPress={()=>{
-                    NavigationUtil.goPage({
-                        navigation:this.props.navigation
-                    },'AsyncStrageDemo')
-                }}>AsyncStorage实用</Text>
-                <Text onPress={()=>{
-                    NavigationUtil.goPage({
-                        navigation:this.props.navigation
-                    },'DataStoreDemoPage')
-                }}>DataStore实用</Text>
-                
+               <FlatList 
+                    data={store.itmes}
+                    renderItem={data => (<View>
+                        <Text>1111</Text>
+                    </View>)}
+                    keyExtractor={item=> item+id}
+                    refreshing={store.isLoading}
+                    onRefresh={()=>this.loadData()}
+                    refreshControl={
+                        <RefreshControl 
+                            title={'Loading'}
+                            titleColor={THEME_COLOR}
+                            colors={[THEME_COLOR]}
+                            tintColor={THEME_COLOR}
+                        />
+                    }
+               /> 
             </View>
         )
     }
 }
 
-// const tabNames = ['Java','Android','iOS','React','React Native','PHP']
+const mapStateToProps = state =>({
+    popular:state.popular
+})
+
+const mapDispatchToProps = dispatch =>({
+    onLoadPopularData: (storeName,url) => dispatch(actions.onLoadPopularData(storeName,url)) 
+})
+
+const PopularTabPage = connect(mapStateToProps,mapDispatchToProps)(PopularTab)
 
 export default class PopularPage extends Component {
 
@@ -61,7 +108,7 @@ export default class PopularPage extends Component {
         const tabs = {}
         this.state.tabNames.forEach((item,index) => {
             tabs[`tab${index}`] = {
-                screen : props => <PopularTab {...props} tabLabel={item} />,
+                screen : props => <PopularTabPage {...props} tabLabel={item} />,
                 navigationOptions:{
                     title:item
                 }
@@ -93,8 +140,6 @@ export default class PopularPage extends Component {
                     marginBottom:6,
                 }
             },
-            
-
         }))
 
         return <View style={{flex:1,marginTop:30,}}>
@@ -106,7 +151,5 @@ export default class PopularPage extends Component {
 const style = StyleSheet.create({
     container:{
         flex:1,
-        alignItems:'center',
-        justifyContent:'center'
     }
 })

@@ -49,9 +49,8 @@ export default class DataStoreDemoPage extends Component {
                     }}/>
                     <Button title={'搜索'} onPress={()=>this.loadData()}/>
                 </View>
-                <ScrollView style={{marginTop:20}}>
-                    <Text>{this.state.showText}</Text>
-                </ScrollView>
+                <Text>{this.state.showText}</Text>
+                
             </View>
         )
     }
