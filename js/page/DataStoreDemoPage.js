@@ -1,64 +1,57 @@
 /*
  * @Author: your name
  * @Date: 2019-12-10 11:39:59
- * @LastEditTime: 2019-12-10 17:09:52
+ * @LastEditTime: 2019-12-10 18:01:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /github/js/page/FetchDemoPage.js
  */
 import React, { Component } from 'react'
-import {View,TextInput,StyleSheet,Button,Text,AsyncStorage} from 'react-native'
+import {View,TextInput,StyleSheet,Button,Text,AsyncStorage,ScrollView} from 'react-native'
+import DataStore from '../expand/dao/DataStore'
 
 ///https://api.github.com/search/reponsitories?q=java
 const KEY ='Key'
-export default class AsyncStrageDemo extends Component {
+export default class DataStoreDemoPage extends Component {
 
+    constructor(props) {
+        super(props)
+        this.dataStore = new DataStore()
+    }
     state = {
         showText:''
     }
+    
 
-    //存储数据
-    doSave = () => {
-        console.log('dosave')
-        AsyncStorage.setItem(KEY,this.value)
-            .catch(e => {
-                console.log(e.toString())
-            })
-    }
-
-    doRemove = () => {
-        AsyncStorage.removeItem(KEY)
-            .catch(e => {
-                console.log(e.toString())
-            })
-    }
-
-    getData = () => {
-        AsyncStorage.getItem(KEY)
-            .then(res => {
-                console.log(res,111)
+    loadData =()=>{
+        let url = `https://api.github.com/search/repositories?q=${this.searchKey}`
+        console.log(url)
+        this.dataStore.fetchData(url) 
+            .then(data => {
+                let showData = `初次加载时间：${new Date(data.timeStamp)} \n ${JSON.stringify(data.data)}`
                 this.setState({
-                    showText:res || '没有取到数据'
+                    showText:showData
                 })
             })
-            .catch(e => {
-                console.log(e.toString())
+            .catch(error => {
+                error && console.log(error.toString())    
             })
+            
     }
 
     render() {
         return (
             <View style={style.container}>
-                <Text>AsyncStorage简单实用</Text>
-                <TextInput style={style.textInput} placeholder={'存储的数据'} onChangeText={(text) =>{
-                    this.value = text
-                }}/>
-                <View style={style.menuStyle}>
-                    <Text onPress={()=> this.doSave()}>存储</Text>
-                    <Text onPress={()=> this.doRemove()}>删除</Text>
-                    <Text onPress={()=> this.getData()}>获取</Text>
+                <Text>离线缓存框架简单实用简单实用</Text>
+                <View style={style.search_container}>
+                    <TextInput style={style.textInput} placeholder="要搜索的内容" onChangeText={text =>{
+                        this.searchKey = text
+                    }}/>
+                    <Button title={'搜索'} onPress={()=>this.loadData()}/>
                 </View>
-                <Text style={{color:"red"}}>{this.state.showText}</Text>
+                <ScrollView style={{marginTop:20}}>
+                    <Text>{this.state.showText}</Text>
+                </ScrollView>
             </View>
         )
     }
@@ -67,20 +60,20 @@ export default class AsyncStrageDemo extends Component {
 const style = StyleSheet.create({
     container:{
         flex:1,
+        alignItems:'center',
+        // justifyContent:'center'
     },
     search_container:{
         flexDirection:'row',
         marginTop:20,
     },
     textInput:{
-        margin:20,
+        marginLeft:10,
+        marginRight:10,
         borderColor:'black',
         borderWidth:1,
-        height:40
-    },
-    menuStyle :{
-        justifyContent:'space-around',
-        flexDirection:'row',
+        width:300
+
     }
 })
 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-12-05 15:05:03
- * @LastEditTime: 2019-12-10 16:17:46
+ * @LastEditTime: 2019-12-10 17:47:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /github/js/page/PopularPage.js
@@ -34,6 +34,11 @@ class PopularTab extends Component {
                         navigation:this.props.navigation
                     },'AsyncStrageDemo')
                 }}>AsyncStorage实用</Text>
+                <Text onPress={()=>{
+                    NavigationUtil.goPage({
+                        navigation:this.props.navigation
+                    },'DataStoreDemoPage')
+                }}>DataStore实用</Text>
                 
             </View>
         )
