@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-12-11 10:59:47
- * @LastEditTime: 2019-12-11 18:02:07
+ * @LastEditTime: 2019-12-11 18:15:45
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /github/js/common/PopularItem.js
@@ -27,6 +27,7 @@ export default class PopularItem extends Component {
                             </TouchableOpacity>
         return (
             <TouchableOpacity
+                activeOpacity={1}
                 onPress={this.props.onSelect}>
                     <View style={styles.cell_container}>
                         <Text style={styles.title}>
@@ -36,7 +37,7 @@ export default class PopularItem extends Component {
                             {item.description}
                         </Text>
                         <View style={styles.row}>
-                            <View style={{flexDirection:'row'}}>
+                            <View style={{flexDirection:'row',justifyContent:'center'}}>
                                 <Text>Author:</Text>
                                 <Image style={{height:22,width:22}}
                                     source={{uri:item.owner.avatar_url}} />
@@ -48,7 +49,6 @@ export default class PopularItem extends Component {
                             {favoriteButton}
                         </View>
                     </View>
-
             </TouchableOpacity>
         )
     }
