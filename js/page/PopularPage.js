@@ -1,22 +1,25 @@
 /*
  * @Author: your name
  * @Date: 2019-12-05 15:05:03
- * @LastEditTime: 2019-12-10 17:47:25
+ * @LastEditTime: 2019-12-11 18:05:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /github/js/page/PopularPage.js
  */
 import React, { Component } from 'react'
-import {View,Text,StyleSheet,FlatList,RefreshControl} from 'react-native'
+import {View,Text,StyleSheet,FlatList,RefreshControl,ActivityIndicator} from 'react-native'
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs'
 import {createAppContainer} from 'react-navigation'
 import NavigationUtil from '../navigator/NavigationUtil'
 import actions from '../action/index'
 import { connect } from 'react-redux'
+import PopularItem from '../common/PopularItem'
+import Toast from 'react-native-easy-toast'
 
 const URL = 'https://api.github.com/search/repositories?q='
 const QUERY_STR = '&sort=stars'
 const THEME_COLOR = 'red'
+const pageSize = 10;//设为常量，防止修改
 
 class PopularTab extends Component {
 
@@ -26,59 +29,95 @@ class PopularTab extends Component {
         this.storeName = tabLabel
     }
 
+    _store() {
+        const {popular} = this.props
+        let store = popular[this.storeName];
+        if (!store) {
+            store={
+                items:[],
+                isLoading:false,
+                projectModes:[],///要显示的数据
+                hideLoadingMore:false,//默认隐藏加载更多
+            }
+        }
+        return store;
+    }
+
     genFetchUrl(key) {
         return URL + key + QUERY_STR
     }
 
-    loadData = () => {
-        const {onLoadPopularData} = this.props
+    loadData = (loadMore) => {
+        const {onRefreshPopular,onLoadMorePopluar} = this.props
+        const store = this._store()
         const url = this.genFetchUrl(this.storeName)
-        onLoadPopularData(this.storeName,url)
+
+        if (loadMore) {
+            console.log(111)
+            onLoadMorePopluar(this.storeName,++store.pageIndex,pageSize,store.items,callback =>{
+                this.refs.toast.show('没有更多了')
+            })
+        } else {
+            onRefreshPopular(this.storeName,url,pageSize)
+        }
     }
 
     componentDidMount() {
         this.loadData()
     }
 
+    genIndicator() {
+        return this._store().hideLoadingMore ? null : <View style={style.indicatorContainer}>
+            <ActivityIndicator 
+                style={style.indicator}
+            />
+            <Text>正在加载更多</Text>
+        </View> ;
+    }
+
     _renderItem = (data) => {
-        console.log(item,22222)
-        return <View style={{marginBottom:10}}>
-            <Text style={{backgroundColor:'#faa'}}>
-                1111
-            </Text>
-        </View>
+        // console.log(item,22222)
+        const {item} = data
+        console.log(data.item,2222)
+        return <PopularItem item={item}
+            onSelect={()=>{
+                console.log(1)
+            }}     
+        />
     }
 
     render() {
         const {popular} = this.props
-        let store = popular[this.storeName]; //动态获取state
-        if (!store) {
-            store = {
-                itmes:[],
-                isLoading:false
-            }
-        }
-
-        // console.log(store.isLoading)
+        let store = this._store(); //动态获取state
         return (
             <View style={style.container}>
-               <FlatList 
-                    data={store.itmes}
-                    renderItem={data => (<View>
-                        <Text>1111</Text>
-                    </View>)}
-                    keyExtractor={item=> item+id}
-                    refreshing={store.isLoading}
-                    onRefresh={()=>this.loadData()}
+               <FlatList
+                    data={store.projectModes}
+                    renderItem={data => this._renderItem(data)}
+                    keyExtractor={item=> {
+                        console.log(item)
+                        return item.id
+                    }}
                     refreshControl={
                         <RefreshControl 
                             title={'Loading'}
                             titleColor={THEME_COLOR}
                             colors={[THEME_COLOR]}
                             tintColor={THEME_COLOR}
+                            refreshing={store.isLoading}
+                            onRefresh={()=>this.loadData()}
                         />
                     }
+                    ListFooterComponent={()=>this.genIndicator()}
+                    onEndReached={()=>{
+                        this.loadData(true)
+                        // console.log('调用了')
+                    }}
+                    onEndReachedThreshold={0.5}
                /> 
+               <Toast ref={'toast'}
+                    position={'center'}
+               />
             </View>
         )
     }
@@ -89,7 +128,8 @@ const mapStateToProps = state =>({
 })
 
 const mapDispatchToProps = dispatch =>({
-    onLoadPopularData: (storeName,url) => dispatch(actions.onLoadPopularData(storeName,url)) 
+    onRefreshPopular: (storeName,url,pageSize) => dispatch(actions.onRefreshPopular(storeName,url,pageSize)), 
+    onLoadMorePopluar: (storeName,pageIndex,pageSize,items,callBack) => dispatch(actions.onLoadMorePopluar(storeName,pageIndex,pageSize,items,callBack)) 
 })
 
 const PopularTabPage = connect(mapStateToProps,mapDispatchToProps)(PopularTab)
@@ -151,5 +191,12 @@ export default class PopularPage extends Component {
 const style = StyleSheet.create({
     container:{
         flex:1,
+    },
+    indicatorContainer:{
+        alignItems:'center'
+    },
+    indicator:{
+        color:'red',
+        margin:10
     }
 })

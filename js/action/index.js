@@ -7,9 +7,10 @@
  * @FilePath: /github/js/action/index.js
  */
 import {onThemeChange} from './theme'
-import {onLoadPopularData} from './popular'
+import {onRefreshPopular,onLoadMorePopluar} from './popular'
 
 export default {
     onThemeChange,
-    onLoadPopularData,
+    onRefreshPopular,
+    onLoadMorePopluar
 }

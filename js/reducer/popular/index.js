@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2019-12-11 09:11:09
+ * @LastEditTime: 2019-12-11 17:35:24
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /github/js/reducer/popular/index.js
+ */
 import Types from '../../action/types'
 
 const defaultState = {
@@ -24,33 +32,59 @@ const defaultState = {
  * @returns
  */
 export default function onAction(state=defaultState,action) {
-    switch (action.type) {
-        case Types.LOAD_POPULAR_SUCCESS:
-            return {
-                ...state,
-                [action.storeName]:{
-                    ...[action.storeName],
-                    items:action.items,
-                    isLoading:false
-                }
-            }
-        case Types.POPULAR_REFRESH :
-            return {
-                ...state,
-                [action.storeName]:{
-                    ...[action.storeName],
-                    isLoading:true
-                }
-            }
-        case Types.LOAD_POPULAR_FAIL :
-            return {
-                ...state,
-                [action.storeName]:{
-                    ...[action.storeName],
-                    isLoading:false
-                }
-            }
 
+    console.log(`数据${action}`)
+    switch (action.type) {
+        case Types.POPULAR_REFRESH_SUCCESS: //下拉刷新成功
+            return {
+                ...state,
+                [action.storeName]:{
+                    ...state[action.storeName],
+                    items:action.items,
+                    projectModes:action.projectModes,
+                    isLoading:false,
+                    hideLoadingMore:false,
+                    pageIndex:action.pageIndex
+                }
+            }
+        case Types.POPULAR_REFRESH : //下拉刷新
+            return {
+                ...state,
+                [action.storeName]:{
+                    ...state[action.storeName],
+                    isLoading:true,
+                    hideLoadingMore:false,
+                }
+            }
+        case Types.POPULAR_REFRESH_FAIL : //下拉刷新失败
+            return {
+                ...state,
+                [action.storeName]:{
+                    ...state[action.storeName],
+                    isLoading:false,
+                    hideLoadingMore:false,
+                }
+            }
+        case Types.POPULAR_LOAD_MORE_SUCCESS: //上拉加载更多成功
+        return {
+            ...state,
+            [action.storeName]:{
+                ...state[action.storeName],
+                projectModes:action.projectModes,
+                hideLoadingMore:false,
+                pageIndex:action.pageIndex
+            }
+        }
+        case Types.POPULAR_LOAD_MORE_FAIL: //上拉加载更多失败
+        return {
+            ...state,
+            [action.storeName]:{
+                ...state[action.storeName],
+                hideLoadingMore:true,
+                pageIndex:action.pageIndex
+            }
+        }
+        
         default:
             return state;
     }
