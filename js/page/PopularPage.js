@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-12-05 15:05:03
- * @LastEditTime: 2019-12-11 18:05:12
+ * @LastEditTime: 2019-12-13 14:56:32
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /github/js/page/PopularPage.js
@@ -110,10 +110,19 @@ class PopularTab extends Component {
                     }
                     ListFooterComponent={()=>this.genIndicator()}
                     onEndReached={()=>{
-                        this.loadData(true)
-                        // console.log('调用了')
+                        
+                        setTimeout(() => {
+                            if (this.canLoadMore) {
+                                this.loadData(true)
+                                this.canLoadMore = false;
+                            }
+                        }, 100);
+
                     }}
                     onEndReachedThreshold={0.5}
+                    onMomentumScrollBegin={()=>{
+                        this.canLoadMore = true; //初始化滚动页面调用onEndReached的问题
+                    }}
                /> 
                <Toast ref={'toast'}
                     position={'center'}

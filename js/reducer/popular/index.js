@@ -43,7 +43,7 @@ export default function onAction(state=defaultState,action) {
                     items:action.items,
                     projectModes:action.projectModes,
                     isLoading:false,
-                    hideLoadingMore:false,
+                    hideLoadingMore:true,
                     pageIndex:action.pageIndex
                 }
             }
@@ -53,7 +53,7 @@ export default function onAction(state=defaultState,action) {
                 [action.storeName]:{
                     ...state[action.storeName],
                     isLoading:true,
-                    hideLoadingMore:false,
+                    hideLoadingMore:true,
                 }
             }
         case Types.POPULAR_REFRESH_FAIL : //下拉刷新失败
@@ -62,7 +62,7 @@ export default function onAction(state=defaultState,action) {
                 [action.storeName]:{
                     ...state[action.storeName],
                     isLoading:false,
-                    hideLoadingMore:false,
+                    hideLoadingMore:true,
                 }
             }
         case Types.POPULAR_LOAD_MORE_SUCCESS: //上拉加载更多成功
@@ -71,7 +71,7 @@ export default function onAction(state=defaultState,action) {
             [action.storeName]:{
                 ...state[action.storeName],
                 projectModes:action.projectModes,
-                hideLoadingMore:false,
+                hideLoadingMore:true,
                 pageIndex:action.pageIndex
             }
         }
