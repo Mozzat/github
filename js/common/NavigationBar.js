@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-12-13 15:05:47
- * @LastEditTime: 2019-12-13 18:04:37
+ * @LastEditTime: 2019-12-13 18:22:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /github/js/common/NavigationBar.js
@@ -14,7 +14,7 @@ const NAV_BAR_HEIGHT_IOS = 44;//导航栏在iOS中的高度
 const NAV_BAR_HEIGHT_ANDROID = 50;//导航栏在Android中的高度
 const STATUS_BAR_HEIGHT = 20;//状态栏的高度
 const StatusBarShapre = {
-    barStyle:PropTypes.oneOf(['light-content','default','dark-content']),
+    barStyle:PropTypes.oneOf(['light-content', 'default',]),
     hidden:PropTypes.bool,
     backgroundColor:PropTypes.string
 }
