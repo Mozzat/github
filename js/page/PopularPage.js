@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-12-05 15:05:03
- * @LastEditTime: 2019-12-13 14:56:32
+ * @LastEditTime: 2019-12-13 17:04:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /github/js/page/PopularPage.js
@@ -15,10 +15,11 @@ import actions from '../action/index'
 import { connect } from 'react-redux'
 import PopularItem from '../common/PopularItem'
 import Toast from 'react-native-easy-toast'
+import NavigationBar from '../common/NavigationBar'
 
 const URL = 'https://api.github.com/search/repositories?q='
 const QUERY_STR = '&sort=stars'
-const THEME_COLOR = 'red'
+const THEME_COLOR = '#678'
 const pageSize = 10;//设为常量，防止修改
 
 class PopularTab extends Component {
@@ -172,6 +173,16 @@ export default class PopularPage extends Component {
     }
 
     render() {
+
+        let statusBar = {
+            backgroundColor: THEME_COLOR,
+            barStyle:'lignt-content'
+        }
+        let navigationBar = <NavigationBar 
+            title={'最热'}
+            style={{backgroundColor:THEME_COLOR}}
+            statusBar={statusBar}
+        />
         const TopNavigation = createAppContainer(createMaterialTopTabNavigator(this._genTabs(),{
             tabBarOptions:{
                 scrollEnabled : true, //是否允许滑动
@@ -191,7 +202,8 @@ export default class PopularPage extends Component {
             },
         }))
 
-        return <View style={{flex:1,marginTop:30,}}>
+        return <View style={{flex:1}}>
+            {navigationBar}
             <TopNavigation />
         </View>
     }
