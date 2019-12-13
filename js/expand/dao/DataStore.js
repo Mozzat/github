@@ -1,12 +1,18 @@
 /*
  * @Author: your name
  * @Date: 2019-12-10 17:16:17
- * @LastEditTime: 2019-12-10 18:02:25
+ * @LastEditTime: 2019-12-13 18:18:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /github/js/expand/dao/DataStore.js
  */
 import {AsyncStorage} from 'react-native'
+import GitHubTrending from 'GitHubTrending'
+
+export const FLAG_STORAGE = {
+    flag_popular:'popular',
+    flag_trending:'trending'
+}
 
 export default class DataStore {
 
