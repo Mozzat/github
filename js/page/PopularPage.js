@@ -176,7 +176,7 @@ export default class PopularPage extends Component {
 
         let statusBar = {
             backgroundColor: THEME_COLOR,
-            barStyle:'lignt-content'
+            barStyle:'light-content'
         }
         let navigationBar = <NavigationBar 
             title={'最热'}

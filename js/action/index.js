@@ -8,9 +8,12 @@
  */
 import {onThemeChange} from './theme'
 import {onRefreshPopular,onLoadMorePopluar} from './popular'
+import {onRefreshTrending,onLoadMoreTrending} from './trending'
 
 export default {
     onThemeChange,
     onRefreshPopular,
-    onLoadMorePopluar
+    onLoadMorePopluar,
+    onRefreshTrending,
+    onLoadMoreTrending,
 }
