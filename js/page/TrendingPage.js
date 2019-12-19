@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-12-05 15:03:51
- * @LastEditTime: 2019-12-16 18:17:18
+ * @LastEditTime: 2019-12-19 17:47:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /github/js/page/TrendingPage.js
@@ -47,7 +47,7 @@ import {createAppContainer} from 'react-navigation'
 import NavigationUtil from '../navigator/NavigationUtil'
 import actions from '../action/index'
 import { connect } from 'react-redux'
-import PopularItem from '../common/PopularItem'
+import TrendingItem from '../common/TrendingItem'
 import Toast from 'react-native-easy-toast'
 import NavigationBar from '../common/NavigationBar'
 
@@ -112,10 +112,8 @@ class TrendingTab extends Component {
     }
 
     _renderItem = (data) => {
-        // console.log(item,22222)
         const {item} = data
-        console.log(data.item,2222)
-        return <PopularItem item={item}
+        return <TrendingItem item={item}
             onSelect={()=>{
                 console.log(1)
             }}     
@@ -128,10 +126,14 @@ class TrendingTab extends Component {
         return (
             <View style={style.container}>
                <FlatList
-                    data={store.projectModes}
+                    data={() => {
+
+                        console.log(store.projectModes,444);
+                        return store.projectModes;
+                    }}
                     renderItem={data => this._renderItem(data)}
                     keyExtractor={item=> {
-                        return item.id || item.full_name
+                        return item.id || item.fullName
                     }}
                     refreshControl={
                         <RefreshControl 

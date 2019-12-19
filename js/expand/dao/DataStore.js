@@ -75,6 +75,7 @@ export default class DataStore {
                         if (!items) {
                             throw new error('responseData is null')
                         }
+                        console.log(items)
                         this.saveData(url,items)
                         resolve(items)
                     })

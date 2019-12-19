@@ -47,7 +47,6 @@ export function onRefreshPopular(storeName,url,pageSize) {
  * @param {*} callback 回调函数,可以通过回调函数来向调用页面通信:比如异常信息的展示，没有更多等待
  */
 export function onLoadMorePopluar(storeName,pageIndex,pageSize,dataArray:[],callback) {
-    console.log(dataArray,'数组')
     return dispatch => {
         setTimeout(() => { //模拟网络请求
             if ((pageIndex-1)*pageSize >= dataArray.length) { //已加载完全不数据
