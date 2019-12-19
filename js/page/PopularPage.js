@@ -77,9 +77,7 @@ class PopularTab extends Component {
     }
 
     _renderItem = (data) => {
-        // console.log(item,22222)
         const {item} = data
-        console.log(data.item,2222)
         return <PopularItem item={item}
             onSelect={()=>{
                 console.log(1)

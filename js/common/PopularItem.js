@@ -13,7 +13,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 export default class PopularItem extends Component {
     render() {
         const {item} = this.props
-        console.log(item,3333)
         if (!item || !item.owner) {
             return null;
         }
