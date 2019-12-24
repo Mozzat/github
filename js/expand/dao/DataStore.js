@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2019-12-10 17:16:17
- * @LastEditTime: 2019-12-19 18:42:11
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-24 18:17:45
+ * @LastEditors  : Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /github/js/expand/dao/DataStore.js
  */
@@ -70,7 +70,8 @@ export default class DataStore {
                         reject(error)
                     })
             } else {
-                new GitHubTrending().fetchTrending(url)
+                const trending = new GitHubTrending()
+                trending.fetchTrending(url)
                     .then(items => {
                         if (!items) {
                             throw new error('responseData is null')
