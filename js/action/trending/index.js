@@ -11,13 +11,11 @@ import DataStore, { FLAG_STORAGE } from '../../expand/dao/DataStore'
 import { handleData } from '../ActionUtil'
 
 /**
- *
- *
  * @export 获取最热数据的异步action
  * @param {*} storeName 缓存的名称
  * @param {*} url 链接
  * @param {*} pageSize 
- * @returns
+ * @returns  
  */
 export function onRefreshTrending(storeName,url,pageSize) {
     return dispatch => {

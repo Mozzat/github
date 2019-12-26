@@ -123,14 +123,11 @@ class TrendingTab extends Component {
     render() {
         const {trending} = this.props
         let store = this._store(); //动态获取state
+        console.log(store.projectModes);
         return (
             <View style={style.container}>
                <FlatList
-                    data={() => {
-
-                        console.log(store.projectModes,444);
-                        return store.projectModes;
-                    }}
+                    data={store.projectModes}
                     renderItem={data => this._renderItem(data)}
                     keyExtractor={item=> {
                         return item.id || item.fullName
@@ -185,7 +182,7 @@ export default class TrendingPage extends Component {
     constructor(props){
         super(props)
         this.state={
-            tabNames : ['All','JAVA','C','C#','PHP','JavaScript']
+            tabNames : ['Objective-C','JAVA','C','C#','PHP','JavaScript']
         }
     }
 
